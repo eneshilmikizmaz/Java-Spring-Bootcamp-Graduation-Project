@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "c45553b0-674f-42b7-9a05-5139ad48fdf3",
+		"name": "Final-Assigment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Ticket",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": {
+					"raw": "http://localhost:8088/ticket/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"ticket",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Ticket",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"schedule_id\":1,\r\n    \"user_id\":1,\r\n    \"numberOfSeat\":\"L1\",\r\n    \"dateOfBooking\":\"2018-12-10T13:45:00.000Z\",\r\n    \"gender\":\"MALE\",\r\n    \"fareAmount\":1.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8088/ticket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"ticket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"username\":\"enesh\",\r\n    \"name\":\"eneshkrq\",\r\n    \"surname\":\"kq\",\r\n    \"email\":\"eneshk@dev.com\",\r\n    \"firmType\":\"CORPORATE\",\r\n    \"password\":\"123456\",\r\n    \"phoneNumber\" : \"5309100071\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/user/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Schedule",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startingPoint\": \"Malatya\",\r\n    \"destination\": \"İstanbul\",\r\n    \"scheduleDate\": \"2018-12-10T13:45:00.000Z\",\r\n    \"departureTime\": \"2018-12-10T13:45:00.000Z\",\r\n    \"arrivalTime\": \"2018-12-10T14:45:00.000Z\",\r\n    \"fareAmount\": 5.45,\r\n    \"vehicle\": \"PLANE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8088/schedule",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"schedule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/schedule/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"schedule",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":2,\r\n    \"schedule_id\":1,\r\n    \"paymentType\":\"CARD\",\r\n    \"passengerList\":[{\r\n        \"numberOfSeat\":\"L1\",\r\n        \"gender\":\"FEMALE\"\r\n    }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8088/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"\",\r\n    \"password\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8088/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

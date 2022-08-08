@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notification
+    username: postgres
+    password: changeme
+    driver-class-name: org.postgresql.Driver
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: 123456
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: notification-service
+
+  cloud:
+    config:
+      profile: native
+      uri: ${CONFIG_SERVER_URL:http://localhost:8889}
+
+server:
+  port: 8084
