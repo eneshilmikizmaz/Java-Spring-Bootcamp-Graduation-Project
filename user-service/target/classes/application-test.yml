@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user
+    username: postgres
+    password: changeme
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: user-service
+
+
+  cloud:
+    config:
+      profile: native
+      uri: ${CONFIG_SERVER_URL:http://localhost:8888}
+server:
+  port: 8080

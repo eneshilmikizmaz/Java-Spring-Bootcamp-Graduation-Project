@@ -1,0 +1,3 @@
+com\ekizmaz\common\client\FeignConfig.class
+com\ekizmaz\common\client\contract\UserDto.class
+com\ekizmaz\common\client\UserServiceClient.class

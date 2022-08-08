@@ -1,0 +1,10 @@
+com\ekizmaz\ticket\dto\UserDto.class
+com\ekizmaz\ticket\TicketServiceApplication.class
+com\ekizmaz\ticket\client\UserServiceClient.class
+com\ekizmaz\ticket\config\CustomBeanFactory.class
+com\ekizmaz\ticket\dto\TicketSaveDto.class
+com\ekizmaz\ticket\controller\TicketController.class
+com\ekizmaz\ticket\repository\TicketRepository.class
+com\ekizmaz\ticket\service\TicketService.class
+com\ekizmaz\ticket\entity\Ticket.class
+com\ekizmaz\ticket\dto\TicketDto.class
