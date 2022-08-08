@@ -14,10 +14,16 @@ spring:
   application:
     name: user-service
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: 123456
 
   cloud:
     config:
       profile: native
       uri: ${CONFIG_SERVER_URL:http://localhost:8888}
+
 server:
   port: 8080

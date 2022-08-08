@@ -1,6 +1,5 @@
 package com.ekizmaz.user.dto;
 
-import com.ekizmaz.user.enums.AppUserRole;
 import com.ekizmaz.user.enums.FirmType;
 import lombok.Data;
 import lombok.Getter;
@@ -18,4 +17,5 @@ public class UserSaveDto  {
     private String email;
     private FirmType firmType;
     private String password;
+    private String phoneNumber;
 }

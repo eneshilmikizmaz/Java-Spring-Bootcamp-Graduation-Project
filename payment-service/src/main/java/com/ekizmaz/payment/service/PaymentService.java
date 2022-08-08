@@ -11,6 +11,7 @@ import com.ekizmaz.payment.enums.Gender;
 import com.ekizmaz.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,6 +26,8 @@ public class PaymentService {
     private final ScheduleServiceClient scheduleServiceClient;
     private final TicketServiceClient ticketServiceClient;
     private final ModelMapper modelMapper;
+
+    private final AmqpTemplate rabbitTemplate;
 
 
     public PaymentDto get(Long id) {
@@ -52,7 +55,6 @@ public class PaymentService {
             throw new Exception("Firmtype problem");
         }
         ScheduleDto scheduleDto = scheduleServiceClient.get(paymentSaveDto.getSchedule_id()).getBody();
-
         List<PaymentDto> payments = paymentSaveDto.getPassengerList().stream().map(p->{
             TicketSaveDto ticket=new TicketSaveDto();
             ticket.setGender(p.getGender());
@@ -69,8 +71,15 @@ public class PaymentService {
             payment.setAmountPaid(scheduleDto.getFareAmount());
             payment.setPaymentType(paymentSaveDto.getPaymentType());
             payment.setUserId(userDto.getId());
-            return modelMapper.map( paymentRepository.save(payment), PaymentDto.class);
+            PaymentDto paymentDto=modelMapper.map( paymentRepository.save(payment), PaymentDto.class);
+            SmsDto smsDto = new SmsDto();
+            smsDto.setPhoneNumber(userDto.getPhoneNumber());
+            smsDto.setMessage("Ticket Details : " + scheduleDto.getScheduleDate() +" "+ scheduleDto.getStartingPoint() +" "+ scheduleDto.getDestination()
+                    +" "+ ticket.getNumberOfSeat());
+            rabbitTemplate.convertAndSend("ticket.notification",smsDto);
+            return paymentDto;
         }).collect(Collectors.toList());
+
 
         return payments;
     }

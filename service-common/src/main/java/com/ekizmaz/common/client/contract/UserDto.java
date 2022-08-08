@@ -18,4 +18,5 @@ public class UserDto {
 
     private String email;
     private String firmType;
+    private String phoneNumber;
 }

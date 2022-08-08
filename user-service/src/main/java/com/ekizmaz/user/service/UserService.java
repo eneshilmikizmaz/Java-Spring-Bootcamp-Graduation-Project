@@ -1,9 +1,7 @@
 package com.ekizmaz.user.service;
 
 import com.ekizmaz.common.client.contract.UserDto;
-import com.ekizmaz.user.dto.AuthRequest;
-import com.ekizmaz.user.dto.AuthResponse;
-import com.ekizmaz.user.dto.UserSaveDto;
+import com.ekizmaz.user.dto.*;
 import com.ekizmaz.user.entity.User;
 import com.ekizmaz.user.enums.AppUserRole;
 import com.ekizmaz.user.enums.FirmType;
@@ -12,6 +10,7 @@ import com.ekizmaz.user.repository.UserRepository;
 import com.ekizmaz.user.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,6 +37,8 @@ public class UserService implements UserDetailsService {
     private final JwtUtil jwtUtil;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final AmqpTemplate rabbitTemplate;
 
     public UserDto get(Long id) {
         User account = userRepository.findById(id)
@@ -53,7 +55,11 @@ public class UserService implements UserDetailsService {
         user.setFirmType(FirmType.INDIVIDUAL);
         //account.setPassword(bCryptPasswordEncoder.encode("123456"));
         user = userRepository.save(user);
-        //accountDto.setId(account.getId());
+        //accountDto.setId(account.getId())
+        EmailDto emailDto=new EmailDto();
+        emailDto.setEmail(userSaveDto.getEmail());
+        emailDto.setMessage("Registiration Succesful!");
+        rabbitTemplate.convertAndSend("ticket.notification",  emailDto);
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -88,7 +94,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(usernameOrEmail).orElseThrow();
     }
 
-
     public UserDto getUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).get();
@@ -97,13 +102,11 @@ public class UserService implements UserDetailsService {
     public AuthResponse getToken(AuthRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail()).get();
-        String encodePassword=bCryptPasswordEncoder.encode(request.getPassword());
 
-        User foundUser1 = userRepository.findByEmailAndPassword(request.getEmail(),encodePassword).get();
-        User foundUser = userRepository.findByEmailAndPassword(request.getEmail(), bCryptPasswordEncoder.encode(request.getPassword()))
-                .orElseThrow(() -> new UserNotFoundException("user not found"));
+        if (Objects.equals(user.getPassword(),bCryptPasswordEncoder.encode(request.getPassword())))
+            throw new UserNotFoundException("user not found");
 
-        String token = jwtUtil.generateToken(foundUser);
+        String token = jwtUtil.generateToken(user);
 
         return new AuthResponse(token);
 

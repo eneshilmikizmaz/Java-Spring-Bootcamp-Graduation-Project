@@ -46,6 +46,10 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getAll(Pageable pageable) {
         return ResponseEntity.ok(userService.findAll(pageable));
     }
+    @GetMapping("/user/current")
+    public ResponseEntity<UserDto> getUser() {
+        return ResponseEntity.ok(userService.getUser());
+    }
 
     @PostMapping(value = "/auth")
     public ResponseEntity<AuthResponse> getToken(@RequestBody AuthRequest request) {

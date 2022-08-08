@@ -43,6 +43,10 @@ public class User implements Serializable, UserDetails {
     private String email;
 
     @Setter
+    @Column
+    private String phoneNumber;
+
+    @Setter
     @Enumerated(EnumType.STRING)
     private FirmType firmType;
     @Setter
